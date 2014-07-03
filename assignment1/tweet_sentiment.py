@@ -18,7 +18,7 @@ def lines(fp):
 def main():
     sent_file = open(sys.argv[1])
     tweet_file = open(sys.argv[2])
-    hw()
+    # hw()
     # lines(sent_file)
     # lines(tweet_file)
     scores = {}
@@ -46,26 +46,32 @@ def main():
 
     terms = []
     temp = {}
+    result = []
+
     sc = int(0)
 
-    #for i in range(1, 20, 1):
     for tweet in tweetsTexts:
         #   tweet = tweetsTexts[i]
         pattern = re.compile('[\W_]+', re.UNICODE)
         tweet = str(pattern.sub(' ', tweet))
         tweet = tweet.replace("@", "", 100).replace("#", "", 100).lower()
-        print tweet
+        #print tweet
         terms = tweet.split(" ")
         sc = int(0)
 
         for term in terms:
             sc += int(scores.get(term, 0))
-            print term, int(scores.get(term, 0))
+         #   print term, int(scores.get(term, 0))
 
         temp[tweet] = sc
+        result.append(sc)
 
-    for t in temp:
-        print t, "--> ", temp[t]
+    # for t in temp:
+    #    print t, "--> ", temp[t]
+    #    print temp[t]
+
+    for r in result:
+        print r
 
 if __name__ == '__main__':
     main()
