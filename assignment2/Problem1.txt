@@ -1,0 +1,65 @@
+10398_txt_earn
+.tables
+.schema
+sqlite> .schema
+CREATE TABLE Frequency (
+docid VARCHAR(255),
+term VARCHAR(255),
+count int,
+PRIMARY KEY(docid, term));
+
+1A
+select * from Frequency where docid = "10398_txt_earn";
+sqlite> select count(*) from Frequency where docid = "10398_txt_earn";
+138
+
+1B
+sqlite> select * from Frequency where docid = "10398_txt_earn" and count=1;
+select term from Frequency where docid = "10398_txt_earn" and count=1;
+select count(term) from Frequency where docid = "10398_txt_earn" and count=1;
+sqlite> select count(term) from Frequency where docid = "10398_txt_earn" and count=1;
+110
+
+1C
+10398_txt_earn and count=1
+U 
+925_txt_trade and count=1
+select term from Frequency where docid = "10398_txt_earn" and count=1 union select term from Frequency where docid = "925_txt_trade" and count=1;
+select count(term) from (
+select term from Frequency where docid = "10398_txt_earn" and count=1 union select term from Frequency where docid = "925_txt_trade" and count=1
+)
+select count(term) from (select term from Frequency where docid = "10398_txt_earn" and count=1 union select term from Frequency where docid = "925_txt_trade" and count=1); 
+sqlite> select count(term) from (select term from Frequency where docid = "10398
+_txt_earn" and count=1 union select term from Frequency where docid = "925_txt_t
+rade" and count=1);
+324
+
+1D
+sqlite> select count(*) from Frequency where term="parliament";
+15
+
+1E
+(e) big documents Write a SQL statement to find all documents that have more than 300 total terms, including duplicate terms. (Hint: You can use the HAVING clause, or you can use a nested query. Another hint: Remember that the count column contains the term frequencies, and you want to consider duplicates.) (docid, term_count)
+
+sqlite> select docid, sum(count) from Frequency group by docid HAVING sum(count) >300;
+sqlite> select count(*) from (select docid, sum(count) from Frequency group by d
+ocid HAVING sum(count)>300);
+107
+
+1F
+(f) two words: Write a SQL statement to count the number of unique documents that contain both the word 'transactions' and the word 'world'.
+
+What to turn in: Run your query against your local database and determine the number of records returned as described above. On the assignment page, turn in a text file two_words.txt that contains the number of records.
+
+select * from (select * from Frequency where term = "transactions") x INNER JOIN (select docid from Frequency where term = "world") y ON x.docid = y.docid;
+sqlite> select * from (select * from Frequency where term = "transactions") x IN
+NER JOIN (select docid from Frequency where term = "world") y ON x.docid = y.doc
+id;
+13263_txt_earn|transactions|1|13263_txt_earn
+2799_txt_acq|transactions|1|2799_txt_acq
+9795_txt_trade|transactions|1|9795_txt_trade
+
+sqlite> select count(*) from (select * from Frequency where term = "transactions
+") x INNER JOIN (select docid from Frequency where term = "world") y ON x.docid
+= y.docid;
+3
