@@ -2,7 +2,7 @@ import MapReduce
 import sys
 
 """
-Join Python Script By Umut DEMiREZEN....
+Friend Count Python Script By Umut DEMiREZEN....
 """
 
 mr = MapReduce.MapReduce()
@@ -11,21 +11,18 @@ mr = MapReduce.MapReduce()
 # Do not modify above this line
 
 def mapper(record):
-    # key: document identifier
-    # value: document contents
-    tableName = record[0]
-    orderID = record[1]
-
-    #for w in words:
-    mr.emit_intermediate(orderID, record)
+    key = record[0]
+    value = record[1]
+    mr.emit_intermediate(key, value)
 
 def reducer(key, list_of_values):
     # key: word
     # value: list of occurrence counts
-    orderTemp = []
+    totalF = 0
     for v in list_of_values:
-      if v[0] == "order": orderTemp=v
-      else: mr.emit(orderTemp + v)
+        totalF = totalF + 1
+
+    mr.emit((key,totalF))
 
 # Do not modify below this line
 # =============================
